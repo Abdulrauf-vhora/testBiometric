@@ -2,33 +2,21 @@ import React, {useEffect, useState} from 'react';
 
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
   View,
-  Pressable,
   Switch,
 } from 'react-native';
 import ReactNativeBiometrics from 'react-native-biometrics';
-import {isSearchBarAvailableForCurrentPlatform} from 'react-native-screens';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import TouchID from 'react-native-touch-id';
 
 const App = () => {
   const checkBioMetricSupport = () => {
     ReactNativeBiometrics.isSensorAvailable().then(resultObject => {
-      console.log('resultObject>', resultObject);
-      console.log('resultObject');
-      // console.log('resultObject>', resultObject);
+      // console.log('resultObject');
       const {available, biometryType} = resultObject;
 
       if (available && biometryType === ReactNativeBiometrics.TouchID) {
@@ -59,6 +47,7 @@ const App = () => {
     passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
   };
   const TouchId = () => {
+    //^^^^^ using react-native-touch-id package
     TouchID.isSupported()
       .then(biometryType => {
         console.log('biometryType>>', biometryType);
@@ -80,7 +69,6 @@ const App = () => {
         }
       })
       .catch(error => {
-        // Failure code
         console.log(error);
       });
   };
@@ -112,9 +100,7 @@ const App = () => {
     checkBioMetricSupport();
   }, []);
   const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+
   // const biometryType = ReactNativeBiometrics.isSensorAvailable();
   const [isEnabled, setIsEnabled] = useState(false);
   // const toggleSwitch = () => setIsEnabled(previousState => !previousState);
